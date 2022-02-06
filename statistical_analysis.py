@@ -4,7 +4,8 @@ current_answer = ''
 guess_counts = []
 
 
-def result_function(guess, alt_answer=''):
+# simulates the result the wordle website would give with an answer and a guess
+def simulate_wordle_result(guess, alt_answer=''):
     global current_answer
 
     result = [0, 0, 0, 0, 0]
@@ -36,6 +37,7 @@ def sort_key(e):
     return e[1]
 
 
+# analyses which opening word is the best given the word list. outputs the average number of guesses for each word
 def analyse_opener(word_filename='sgb-words.txt', output_filename='avg_guess_counts.txt'):
     global current_answer
 
@@ -53,7 +55,7 @@ def analyse_opener(word_filename='sgb-words.txt', output_filename='avg_guess_cou
         num_guesses = 0
         for answer in answers:
             current_answer = answer
-            c = player.play(result_function, opener=opener, to_print=False, word_file=word_filename)
+            c = player.play(result_function=simulate_wordle_result, opener=opener, to_print=False, word_file=word_filename)
             if c != 1:
                 guess_count += c
                 num_guesses += 1
@@ -71,6 +73,7 @@ def analyse_opener(word_filename='sgb-words.txt', output_filename='avg_guess_cou
             f.write('{}\n'.format(g))
 
 
+# analyses the effectiveness of an arrangement of the word list
 def analyse_word_list(word_filename):
     global current_answer
 
@@ -82,7 +85,7 @@ def analyse_word_list(word_filename):
     num_guesses = 0
     for answer in answers:
         current_answer = answer
-        c = player.play(result_function, to_print=False, word_file=word_filename)
+        c = player.play(simulate_wordle_result, to_print=False, word_file=word_filename)
         if c != 1:
             guess_count += c
             num_guesses += 1
@@ -92,6 +95,6 @@ def analyse_word_list(word_filename):
 
 
 if(__name__ == "__main__"):
-    analyse_opener(word_filename='updated_words.txt', output_filename='avg_guess_counts_updated.txt')
+    analyse_opener()
     # analyse_word_list('sgb-words.txt')
     
