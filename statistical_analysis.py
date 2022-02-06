@@ -55,7 +55,9 @@ def analyse_opener(word_filename='sgb-words.txt', output_filename='avg_guess_cou
         num_guesses = 0
         for answer in answers:
             current_answer = answer
-            c = player.play(result_function=simulate_wordle_result, opener=opener, to_print=False, word_file=word_filename)
+            # play the game and count how many guesses it took to find the answer
+            c = player.play(result_function=simulate_wordle_result,
+                            opener=opener, to_print=False, word_file=word_filename)
             if c != 1:
                 guess_count += c
                 num_guesses += 1
@@ -80,12 +82,13 @@ def analyse_word_list(word_filename):
     answers = []
     with open('old_answers.txt', 'r+') as word_file:
         answers = [answer[:-1].lower() for answer in word_file.readlines()]
-    
+
     guess_count = 0
     num_guesses = 0
     for answer in answers:
         current_answer = answer
-        c = player.play(simulate_wordle_result, to_print=False, word_file=word_filename)
+        c = player.play(simulate_wordle_result, to_print=False,
+                        word_file=word_filename)
         if c != 1:
             guess_count += c
             num_guesses += 1
@@ -97,4 +100,3 @@ def analyse_word_list(word_filename):
 if(__name__ == "__main__"):
     analyse_opener()
     # analyse_word_list('sgb-words.txt')
-    

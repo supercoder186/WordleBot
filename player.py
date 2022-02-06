@@ -134,7 +134,7 @@ def get_result_uinput(guess):
 
 
 # simulates a game of wordle
-def play(result_function=get_result_uinput, guess_function=guess_first, result_process_function=process_result_eliminator,\
+def play(result_function=get_result_uinput, guess_function=guess_first, result_process_function=process_result_eliminator,
         opener='tears', to_print=True, word_file='sgb-words.txt'):
     global OPENING_WORD
     reset(word_file)  # reset the bot state
