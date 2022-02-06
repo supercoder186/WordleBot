@@ -17,13 +17,13 @@ def reset(word_file_name):
     letters_in_word = []
 
 
-def guess(state):
+def guess_first(state, word_list):
     if not state:
         return OPENING_WORD
-    return words[0]
+    return word_list[0]
 
 
-def process_result(result):
+def process_result_eliminator(result):
 
     word = result[0]
 
@@ -101,14 +101,14 @@ def get_result_uinput(guess):
     return (guess, [int(i) for i in result_str][:5])
 
 
-def play(result_function, opener='tears', to_print=True, word_file='sgb-words.txt'):
+def play(result_function, guess_function=guess_first, result_process_function=process_result_eliminator, opener='tears', to_print=True, word_file='sgb-words.txt'):
     global OPENING_WORD
     reset(word_file)
 
     OPENING_WORD = opener
 
     for i in range(20):
-        bot_guess = guess(i)
+        bot_guess = guess_function(i, words)
         result = result_function(bot_guess)
 
         if(result[1] == [2, 2, 2, 2, 2]):
@@ -116,7 +116,7 @@ def play(result_function, opener='tears', to_print=True, word_file='sgb-words.tx
                 print('Success! Guess count: {}'.format(i + 1))
             return i + 1
 
-        process_result(result)
+        result_process_function(result)
 
 
 if(__name__ == "__main__"):
