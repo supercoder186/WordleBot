@@ -1,4 +1,7 @@
 import re
+import pyperclip
+import statistical_analysis
+from statistical_analysis import simulate_wordle_result
 
 
 # result array format
@@ -135,21 +138,25 @@ def get_result_uinput(guess):
 
 # simulates a game of wordle
 def play(result_function=get_result_uinput, guess_function=guess_first, result_process_function=process_result_eliminator,
-        opener='tears', to_print=True, word_file='sgb-words.txt'):
+         opener='tears', to_print=True, word_file='sgb-words.txt', output_results = False):
     global OPENING_WORD
     reset(word_file)  # reset the bot state
 
     OPENING_WORD = opener
+    results = []
 
     for i in range(20):
         # make a guess using the inputted guess function
         bot_guess = guess_function(i, words)
         # use the result function to get a result for the guess
         result = result_function(bot_guess)
+        results.append(result[1])
 
         if(result[1] == [2, 2, 2, 2, 2]):  # check if the guess is successful
             if to_print:
-                print('Success! Guess count: {}'.format(i + 1))
+                print('Guess count: {}'.format(i + 1))
+            if output_results:
+                return i + 1, results
             return i + 1
 
         # process the returned result from the guess to prepare for the next guess
@@ -157,4 +164,19 @@ def play(result_function=get_result_uinput, guess_function=guess_first, result_p
 
 
 if(__name__ == "__main__"):
-    play()
+    num = input('Wordle number: ')
+    statistical_analysis.current_answer = input('Enter the answer: ')
+    i, results = play(result_function=simulate_wordle_result, output_results=True)
+    out_str = 'Wordle {} {}/6\n'.format(num, i)
+    for result in results:
+        out_str += '\n'
+        for letter in result:
+            if letter == 0:
+                out_str += '⬛'
+            elif letter == 1:
+                out_str += '🟨'
+            else:
+                out_str += '🟩'
+
+    print(out_str)
+    pyperclip.copy(out_str)

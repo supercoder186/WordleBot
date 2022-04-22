@@ -1,5 +1,3 @@
-import player
-
 current_answer = ''
 guess_counts = []
 
@@ -39,6 +37,8 @@ def sort_key(e):
 
 # analyses which opening word is the best given the word list. outputs the average number of guesses for each word
 def analyse_opener(word_filename='sgb-words.txt', output_filename='avg_guess_counts.txt'):
+    import player
+
     global current_answer
 
     words = []
@@ -77,6 +77,7 @@ def analyse_opener(word_filename='sgb-words.txt', output_filename='avg_guess_cou
 
 # analyses the effectiveness of an arrangement of the word list
 def analyse_word_list(word_filename):
+    import player
     global current_answer
 
     answers = []
